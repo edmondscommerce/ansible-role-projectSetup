@@ -1,0 +1,29 @@
+---
+- name: Ensure cert directory exists
+  file:
+    path: "{{ certificate_file | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+- name: Ensure key directory exists
+  file:
+    path: "{{ key_file | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+- name: Upload Cert to Server
+  copy:
+    src: "{{ local_certificate_file }}"
+    dest: "{{ certificate_file }}"
+    owner: root
+    group: root
+    mode: 0644
+- name: Upload Key to Server
+  copy:
+    src: "{{ local_key_file }}"
+    dest: "{{ key_file }}"
+    owner: root
+    group: root
+    mode: 0644

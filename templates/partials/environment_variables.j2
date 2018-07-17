@@ -1,0 +1,6 @@
+
+{% if fastcgi_params %}
+    {% for param in fastcgi_params %}
+    fastcgi_param {{ param.name }} "{{ param.value }}";
+    {% endfor %}
+{% endif %}

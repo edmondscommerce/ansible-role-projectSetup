@@ -1,0 +1,7 @@
+
+{% if ip_restrict %}
+    {% for ip in ip_restrict %}
+    allow {{ ip }};
+    {% endfor %}
+    deny all;
+{% endif %}

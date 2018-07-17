@@ -1,0 +1,5 @@
+
+{% if enable_basic_auth %}
+    auth_basic "{{ basic_auth_name }}";
+    auth_basic_user_file {{ basic_auth_file }};
+{% endif %}

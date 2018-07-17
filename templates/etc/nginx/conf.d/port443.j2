@@ -1,0 +1,22 @@
+{% extends "etc/nginx/conf.d/baseServerBlock.j2" %}
+
+
+{% block port %}{{ ssl_port_to_listen_on }}{% endblock %}
+
+{% block ssl_certs %}
+    {% include "partials/ssl_certs.j2" %}
+{% endblock %}
+
+{% block logging %}
+    {% set port=ssl_port_to_listen_on  %}
+    {% include "partials/logging.j2" %}
+{% endblock %}
+
+{% block content %}
+map $scheme $fastcgi_https { ## Detect when HTTPS is used
+    default off;
+    https on;
+}
+
+{{ super() }}
+{% endblock %}

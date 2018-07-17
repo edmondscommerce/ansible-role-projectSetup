@@ -1,0 +1,61 @@
+---
+# File owner
+users_name: ansibleUser
+users_group: ansibleUser
+# File Paths
+project_name: my-ansible-project
+project_directory: /var/www/vhosts
+project_path: "{{ project_directory }}/{{ project_name }}"
+# Do we want to totally remove the current project and start from scratch
+nuke_current_project: true
+# Git details
+uses_git: true
+git_repo:
+git_branch: master
+# Composer details
+uses_composer: true
+composer_action: install
+# Permissions
+file_permissions: 644
+directory_permission: 755
+# Does the project have an env file to configure
+uses_env_file: true
+env_template: ./templates/.env.j2
+# Does the project use doctine
+uses_doctrine: true
+# Nginx Settings
+config_nginx_for_domain: true
+vhost_template: ./templates/etc/nginx/conf.d/port80.j2
+secure_vhost_template: ./templates/etc/nginx/conf.d/port443.j2
+## Domains
+domain_name: www.example.com
+additional_domain_names: ''
+web_root: "{{ project_path }}"
+port_to_listen_on: 80
+## SSL
+enable_ssl: false
+certificate_file: "/etc/ssl/nginx/{{ domain_name }}.crt"
+key_file: "/etc/ssl/nginx/{{ domain_name }}.key"
+local_certificate_file: ''
+local_key_file: ''
+ssl_port_to_listen_on: 443
+force_http_to_https: true
+## Basic Auth
+enable_basic_auth: true
+basic_auth_name: "Restricted Area"
+basic_auth_file: /etc/nginx/.htpasswd
+basic_auth_username: nginx
+basic_auth_password: changeMe
+## IP Restriction
+ip_restrict: false
+# PHP env vars configuration
+fastcgi_params: ""
+# Using Cloudflare
+using_cloudflare: false
+# Letsencrypt
+enable_letsencrypt: false
+letsencrypt_email: ''
+# Use SSL Certs
+use_ssl_client_cert: false
+ssl_client_cert_path: "/etc/ssl/intermediate/{{ project_name }}/certs/ca-chain.cert"
+local_ssl_client_cert_file: ''

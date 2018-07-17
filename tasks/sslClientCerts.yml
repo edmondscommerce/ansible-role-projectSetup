@@ -1,0 +1,15 @@
+---
+- name: Ensure cert directory exists
+  file:
+    path: "{{ ssl_client_cert_path | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+- name: Upload Client Cert to Server
+  copy:
+    src: "{{ local_ssl_client_cert_file }}"
+    dest: "{{ ssl_client_cert_path }}"
+    owner: root
+    group: root
+    mode: 0644

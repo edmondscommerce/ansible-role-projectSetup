@@ -1,0 +1,6 @@
+
+{% if use_ssl_client_cert %}
+    ssl_client_certificate {{ ssl_client_cert_path }};
+    ssl_verify_client on;
+    ssl_verify_depth 2;
+{% endif %}

@@ -1,0 +1,15 @@
+---
+- name: Install letsencrypt
+  yum:
+    name: certbot-nginx
+    state: latest
+- name: Create the webroot folder
+  file:
+    name: /var/www/letsencrypt
+    state: directory
+- name: Generate the certificate
+  shell: "certbot certonly --webroot -w /var/www/letsencrypt -d {{ domain_name }} --agree-tos -m {{ letsencrypt_email }} -n"
+  args:
+    creates: /etc/letsencrypt/live/{{ domain_name }}
+- set_fact:
+    letsencrypt_has_run: true

@@ -1,0 +1,11 @@
+
+{% if enable_ssl %}
+    ssl on;
+    ssl_certificate      "{{ certificate_file }}";
+    ssl_certificate_key  "{{ key_file }}";
+{% elif letsencrypt_has_run %}
+    ssl on;
+    ssl_certificate         /etc/letsencrypt/live/{{ domain_name }}/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/{{ domain_name }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ domain_name }}/fullchain.pem;
+{% endif %}

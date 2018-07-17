@@ -1,0 +1,12 @@
+- name: Run Doctrine schema create
+  command: php ./bin/console doctrine:schema:update --force
+  args:
+    chdir: "{{ project_path }}"
+- name: Downgrade existing Doctrine data migration
+  command: php ./bin/console doctrine:migrations:execute DataMigration001 --env=prod --down --no-interaction
+  args:
+    chdir: "{{ project_path }}"
+- name: Upgrade with new Doctrine data migration
+  command: php ./bin/console doctrine:migrations:execute DataMigration001 --env=prod --up --no-interaction
+  args:
+    chdir: "{{ project_path }}"

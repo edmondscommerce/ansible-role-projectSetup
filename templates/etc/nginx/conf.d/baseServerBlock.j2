@@ -1,0 +1,74 @@
+{% block content %}
+server {
+    listen       {% block port %}{% endblock %};
+    server_name  {{ domain_name }} {{ additional_domain_names }};
+{% block ssl_certs %}{% endblock %}
+{% block letsencrypt %}{% endblock %}
+{% block handle_requests %}
+
+{% block client_certs %}
+    {% include "partials/client_certificates.j2" %}
+{% endblock %}
+
+    server_tokens off;
+
+{% block includes %}
+    {% if using_cloudflare %}
+    include includes/cloudflare.conf;
+    {% endif %}
+
+    include includes/header.conf;
+    include includes/gzip.conf;
+
+{% endblock %}
+
+{% block other_options %}
+    keepalive_timeout 0;
+{% endblock %}
+
+{% block webroot %}
+    root   {{ web_root }};
+{% endblock %}
+
+{% block main_location %}
+        
+    location / {
+        {% block basic_auth %}
+            {% include "partials/basic_auth.j2" %}
+        {% endblock %}
+        {% block ip_restrictions %}
+            {% include "partials/ip_restrictions.j2" %}
+        {% endblock %}
+        {% block try_files %}
+            {% include "partials/try_files.j2" %}
+        {% endblock %}
+        {% block custom_location_rules %}
+
+        {% endblock %}
+
+        expires max; ## Enable max file cache;
+    }
+{% endblock %}
+
+{% block handler %}
+    {% include "partials/handler.j2" %}
+{% endblock %}
+
+{% block php_location %}
+
+    location ~ ^/index\.php(/|$) {
+        include includes/php-fpm.conf;
+        {% block environment_variables %}
+            {% include "partials/environment_variables.j2" %}
+        {% endblock %}
+        {% block custom_php_location_rules %}{% endblock %}
+        
+    }
+
+{% endblock %}
+{% block custom_location %}{% endblock %}
+{% endblock %}
+{% block logging %}{% endblock %}
+
+}
+{% endblock %}

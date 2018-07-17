@@ -1,0 +1,20 @@
+{% extends "etc/nginx/conf.d/baseServerBlock.j2" %}
+
+{% block port %}{{ port_to_listen_on }}{% endblock %}
+
+{% block letsencrypt %}
+    {% include "partials/lets_encrypt_challenge.j2" %}
+{% endblock %}
+
+{% block handle_requests %}
+    {% if force_http_to_https %}
+        {% include "partials/redirect_to_https.j2" %}
+    {% else %}
+        {{ super() }}
+    {% endif %}
+{% endblock %}
+
+{% block logging %}
+    {% set port=port_to_listen_on  %}
+    {% include "partials/logging.j2" %}
+{% endblock %}

@@ -1,0 +1,43 @@
+---
+- name: Remove existing project dir
+  file:
+    path: "{{ project_path }}/"
+    state: absent
+  when: nuke_current_project
+- name: Create new project dir
+  file:
+    path: "{{ project_path }}/"
+    state: directory
+    owner: "{{ users_name }}"
+    group: "{{ users_group }}"
+    mode: 0755
+- name: Clone project repo
+  git:
+    repo: "{{ git_repo }}"
+    dest: "{{ project_path }}"
+    version: "{{ git_branch }}"
+    force: yes
+  when: uses_git
+- name: Composer install
+  composer:
+    command: "{{ composer_action }}"
+    no_dev: yes
+    optimize_autoloader: yes
+    working_dir: "{{ project_path }}"
+  when: uses_composer
+- import_tasks: setEnvFile.yml
+  when: uses_env_file
+- import_tasks: doctrine.yml
+  when: uses_doctrine
+- import_tasks: sslClientCerts.yml
+  when: use_ssl_client_cert
+- import_tasks: nginx.yml
+  when: config_nginx_for_domain
+- name: Set project files user and group
+  command: chown -R {{ users_name }}:{{ users_group }} "{{ project_path }}"
+  args:
+    warn: False
+- name: Set project directory permissions
+  command: find "{{ project_path }}" -type d -exec chmod {{ directory_permission }} {} +
+- name: Set project file permissions
+  command: find "{{ project_path }}" -type f -exec chmod {{ file_permissions }} {} +

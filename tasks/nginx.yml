@@ -1,0 +1,40 @@
+- name: Remove default config
+  file:
+    state: absent
+    path: /etc/nginx/conf.d/default.conf 
+- name: Upload port 80 vhost config
+  template:
+    src: "{{ vhost_template }}"
+    dest: "/etc/nginx/conf.d/{{ domain_name }}-port{{ port_to_listen_on }}.conf"
+    owner: root
+    group: root
+- name: Restart NGINX
+  service:
+    name: nginx
+    state: restarted
+- import_tasks: letsencrypt.yml
+  when: enable_letsencrypt
+- name: Ensure we can generate basic auth details
+  yum:
+    name: python-passlib
+    state: latest
+  when: enable_basic_auth
+- name: Enable basic auth
+  htpasswd:
+    path: "{{ basic_auth_file }}"
+    name: "{{ basic_auth_username }}"
+    password: "{{ basic_auth_password }}"
+  when: enable_basic_auth
+- import_tasks: sslCerts.yml
+  when: enable_ssl
+- name: Upload port 443 config
+  template:
+      src: "{{ secure_vhost_template }}"
+      dest: "/etc/nginx/conf.d/{{ domain_name }}-port{{ ssl_port_to_listen_on }}.conf"
+      owner: root
+      group: root
+  when: enable_ssl or enable_letsencrypt
+- name: Restart NGINX
+  service:
+    name: nginx
+    state: restarted

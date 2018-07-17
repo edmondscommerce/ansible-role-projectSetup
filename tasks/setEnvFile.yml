@@ -1,0 +1,6 @@
+- name: Set the .env values
+  template:
+    src: "{{ env_template }}"
+    dest: "{{ project_path }}/.env"
+    owner: root
+    group: root
