@@ -38,11 +38,3 @@
   when: use_ssl_client_cert
 - import_tasks: nginx.yml
   when: config_nginx_for_domain
-- name: Set project files user and group
-  command: chown -R {{ users_name }}:{{ users_group }} "{{ project_path }}"
-  args:
-    warn: False
-- name: Set project directory permissions
-  command: find "{{ project_path }}" -type d -exec chmod {{ directory_permission }} {} +
-- name: Set project file permissions
-  command: find "{{ project_path }}" -type f -exec chmod {{ file_permissions }} {} +
