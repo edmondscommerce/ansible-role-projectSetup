@@ -4,6 +4,7 @@
     path: "{{ project_path }}/"
     state: absent
   when: nuke_current_project
+
 - name: Create new project dir
   file:
     path: "{{ project_path }}/"
@@ -11,6 +12,7 @@
     owner: "{{ users_name }}"
     group: "{{ users_group }}"
     mode: 0755
+
 - name: Clone project repo
   become: true
   become_user: "{{ users_name }}"
@@ -21,6 +23,7 @@
     force: yes
     accept_hostkey: yes
   when: uses_git
+
 - name: Composer install
   become: true
   become_user: "{{ users_name }}"
@@ -30,11 +33,15 @@
     optimize_autoloader: yes
     working_dir: "{{ project_path }}"
   when: uses_composer
+
 - import_tasks: setEnvFile.yml
   when: uses_env_file
+
 - import_tasks: doctrine.yml
   when: uses_doctrine
+
 - import_tasks: sslClientCerts.yml
   when: use_ssl_client_cert
+
 - import_tasks: nginx.yml
   when: config_nginx_for_domain
