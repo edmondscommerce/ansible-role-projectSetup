@@ -15,6 +15,7 @@ git_branch: master
 # Composer details
 uses_composer: true
 composer_action: install
+composer_no_dev: yes
 # Permissions
 file_permissions: 644
 directory_permission: 755

@@ -29,7 +29,7 @@
   become_user: "{{ users_name }}"
   composer:
     command: "{{ composer_action }}"
-    no_dev: yes
+    no_dev: "{{ composer_no_dev }}"
     optimize_autoloader: yes
     working_dir: "{{ project_path }}"
   when: uses_composer
