@@ -2,5 +2,6 @@
   template:
     src: "{{ env_template }}"
     dest: "{{ project_path }}/.env"
-    owner: root
-    group: root
+    owner: "{{ users_name }}"
+    group: "{{ users_name }}"
+    mode: 0600
