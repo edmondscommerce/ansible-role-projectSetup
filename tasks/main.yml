@@ -32,6 +32,7 @@
     no_dev: "{{ composer_no_dev }}"
     optimize_autoloader: yes
     working_dir: "{{ project_path }}"
+    arguments: --quiet
   when: uses_composer
 
 - import_tasks: setEnvFile.yml
