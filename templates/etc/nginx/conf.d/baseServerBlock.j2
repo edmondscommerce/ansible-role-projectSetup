@@ -60,7 +60,9 @@ server {
 {% block php_location %}
 
     location ~ ^/index\.php(/|$) {
-        include includes/php-fpm.conf;
+        {% block include_php_conf %}
+            include includes/php-fpm.conf;
+        {% endblock %}
         {% block environment_variables %}
             {% include "partials/environment_variables.j2" %}
         {% endblock %}
