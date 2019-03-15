@@ -24,6 +24,8 @@ uses_env_file: true
 env_template: ./templates/.env.j2
 # Does the project use doctine
 uses_doctrine: true
+uses_doctrine_migrations: true
+doctrine_migration_name: DataMigration001
 # Nginx Settings
 config_nginx_for_domain: true
 vhost_template: ./templates/etc/nginx/conf.d/port80.j2

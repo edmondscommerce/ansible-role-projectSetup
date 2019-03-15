@@ -3,10 +3,12 @@
   args:
     chdir: "{{ project_path }}"
 - name: Downgrade existing Doctrine data migration
-  command: php ./bin/console doctrine:migrations:execute DataMigration001 --env=prod --down --no-interaction
+  command: "php ./bin/console doctrine:migrations:execute {{ doctrine_migration_name }} --env=prod --down --no-interaction"
   args:
     chdir: "{{ project_path }}"
+  when: uses_doctrine_migrations
 - name: Upgrade with new Doctrine data migration
-  command: php ./bin/console doctrine:migrations:execute DataMigration001 --env=prod --up --no-interaction
+  command: "php ./bin/console doctrine:migrations:execute {{ doctrine_migration_name }} --env=prod --up --no-interaction"
   args:
     chdir: "{{ project_path }}"
+  when: uses_doctrine_migrations
