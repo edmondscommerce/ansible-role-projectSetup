@@ -1,4 +1,7 @@
 {% block content %}
+
+{% block outside_server_block %}{% endblock %}
+
 server {
     listen       {% block port %}{% endblock %};
     server_name  {{ domain_name }} {{ additional_domain_names }};

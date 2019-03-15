@@ -41,6 +41,8 @@ certificate_file: "/etc/ssl/nginx/{{ domain_name }}.crt"
 key_file: "/etc/ssl/nginx/{{ domain_name }}.key"
 local_certificate_file: ''
 local_key_file: ''
+local_certificate_content: ''
+local_key_content: ''
 ssl_port_to_listen_on: 443
 force_http_to_https: true
 ## Basic Auth

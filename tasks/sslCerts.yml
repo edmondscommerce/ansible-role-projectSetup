@@ -13,17 +13,35 @@
     owner: root
     group: root
     mode: 0755
-- name: Upload Cert to Server
+- name: Upload Cert file to Server
   copy:
     src: "{{ local_certificate_file }}"
     dest: "{{ certificate_file }}"
     owner: root
     group: root
     mode: 0644
-- name: Upload Key to Server
+  when: local_certificate_file != ''
+- name: Upload Key file to Server
   copy:
     src: "{{ local_key_file }}"
     dest: "{{ key_file }}"
     owner: root
     group: root
     mode: 0644
+  when: local_key_file != ''
+- name: Upload Cert content to Server
+  copy:
+    content: "{{ local_certificate_content }}"
+    dest: "{{ certificate_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: local_certificate_content != ''
+- name: Upload Key content to Server
+  copy:
+    content: "{{ local_key_content }}"
+    dest: "{{ key_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: local_key_content != ''
