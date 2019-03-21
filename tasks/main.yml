@@ -24,6 +24,9 @@
     accept_hostkey: yes
   when: uses_git
 
+- import_tasks: setEnvFile.yml
+  when: uses_env_file
+
 - name: Composer install
   become: true
   become_user: "{{ users_name }}"
@@ -35,8 +38,6 @@
     arguments: --quiet
   when: uses_composer
 
-- import_tasks: setEnvFile.yml
-  when: uses_env_file
 
 - import_tasks: doctrine.yml
   when: uses_doctrine
