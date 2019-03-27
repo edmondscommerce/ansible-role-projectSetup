@@ -36,6 +36,7 @@
     optimize_autoloader: yes
     working_dir: "{{ project_path }}"
     arguments: --quiet
+    executable: "{{ composer_php_executable }}"
   when: uses_composer
 
 

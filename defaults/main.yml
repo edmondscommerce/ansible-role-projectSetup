@@ -16,6 +16,7 @@ git_branch: master
 uses_composer: true
 composer_action: install
 composer_no_dev: yes
+composer_php_executable: php
 # Permissions
 file_permissions: 644
 directory_permission: 755
