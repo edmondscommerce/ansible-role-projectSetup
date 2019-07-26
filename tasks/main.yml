@@ -6,6 +6,7 @@
   when: nuke_current_project
 
 - name: Create new project dir
+  become: true
   file:
     path: "{{ project_path }}/"
     state: directory
