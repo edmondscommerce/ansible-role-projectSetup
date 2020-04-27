@@ -15,6 +15,9 @@ git_branch: master
 # Composer details
 uses_composer: true
 composer_action: install
+# see https://getcomposer.org/doc/03-cli.md#environment-variables
+# it's possible to force configs like COMPOSER_DISCARD_CHANGES,COMPOSER_PROCESS_TIMEOUT etc which can be very useful indeed
+composer_env_vars: ""
 composer_no_dev: yes
 composer_php_executable: php
 # Permissions
